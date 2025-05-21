@@ -44,7 +44,7 @@ async def recommend_cakes(request: VariantRequest):
     sim_scores = list(enumerate(avg_sim))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-    recommended_indices = [i for i, score in sim_scores if df.iloc[i]["variant_id"] not in selected_ids][:5]
-    recommended_variant_ids = df.iloc[recommended_indices]["variant_id"].tolist()
+    # ✅ 변경: 전체 variant_id를 유사도 순으로 정렬하여 반환
+    recommended_variant_ids = df.iloc[[i for i, _ in sim_scores]]["variant_id"].tolist()
 
     return {"recommended_cakes": recommended_variant_ids}
